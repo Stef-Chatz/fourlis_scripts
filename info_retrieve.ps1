@@ -10,13 +10,16 @@ The purpose of this script is to access the active directory computers and
 retrieve information regarding the operating system as well as hardware parts.
 #>
 
-While($Repeat) {
+while($Repeat) {
   Write-Host "Starting script!"
-  $servers = Get-ADComputer -Filter {OperatingSystem -Like }
-}
-#jdbajof
-#test1
-for (){
-  
-}
-#womdaopwdmopwad
+  $servers = Get-ADComputer -Filter {OperatingSystem -Like } |ForEach-Object {$_.Name}
+  Write-Host "Computers found: " -ForegroundColor Yellow
+
+  Write-Host $servers
+
+  foreach ($server in $servers) {
+    Invoke-Command -ComputerName $server -ScriptBlock{
+
+    }#end Invoke-Command
+  }#end foreach
+}#end while
