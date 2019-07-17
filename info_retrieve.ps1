@@ -1,8 +1,8 @@
 <#
 Author: Stefanos Chatzakis
-Version: 1.2
+Version: 0.1
 Company: Fourlis Group
-Created on 04/07/2019
+Created on 17/07/2019
 #>
 
 <#
@@ -20,7 +20,7 @@ while($Repeat) {
   foreach ($server in $servers) {
     Invoke-Command -ComputerName $server -ScriptBlock{
       Write-Host "The computer $server is using:"
-      Get_WmiObject win32_processor -Name 
+      Write-Host Get_WmiObject win32_processor | select name
     }#end Invoke-Command
   }#end foreach
 }#end while
