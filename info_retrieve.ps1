@@ -93,13 +93,13 @@ elseif ($Readhost -eq "2") {
     Write-Host $cpu
 
     #Hard drive
-    Get-WmiObject win32_diskdrive | Where-Object{$_.mediatype -eq "HDD" -or $_.mediatype -eq "SSD"} | ForEach-Object -Process {$_.DeviceID} |Format-Table Name, MediaType
-    #Write-Host "Hard Drives:"
+    Write-Host "Hard Drives:"
+    Get-WmiObject win32_diskdrive -computername $computer | Where-Object{$_.mediatype -eq "HDD" -or $_.mediatype -eq "SSD"} | ForEach-Object -Process {$_.DeviceID} |Format-Table Name, MediaType
     #Write-Host $drives
 
     #Memory
-    $memory = Get-WmiObject Win32_PhysicalMemory |Select @{Label = 'Type';Expression = {$MemoryTypeMap["$($_.MemoryType)"]}}
     Write-Host "Memory:"
-    Write-Host $memory
+    Get-WmiObject Win32_PhysicalMemory -computername $computer | Select @{Label = 'Type';Expression = {$MemoryTypeMap["$($_.MemoryType)"]}}
+    #Write-Host $memory
   }#end foreach
 }#end elseif
