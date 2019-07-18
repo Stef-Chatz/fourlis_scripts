@@ -45,6 +45,7 @@ $MemoryTypeMap = @{
 $Readhost = Read-Host "Type (1(single directory)/2(active directory)/3(cancel))"
 
 if($ReadHost -eq "1") {
+  
   #Verifies that the active directory is enabled and enables it.
   if(!(Get-Module activedirectory)){
     Write-Host "Host does not have activedirectory module installed, installing"
@@ -79,6 +80,10 @@ elseif ($Readhost -eq "2") {
   Write-Host $computers
 
   foreach ($computer in $computers) {
+    #Enables WMI firewall rule (must be executed from an administrator terminal).
+    netsh advfirewall firewall set rule group="Windows Management Instrumentation (WMI)" new enable=yes
+
+
     #Verifies that the active directory is enabled and enables it.
     if(!(Get-Module activedirectory)){
       Write-Host "Host does not have activedirectory module installed,
