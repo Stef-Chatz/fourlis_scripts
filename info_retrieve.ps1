@@ -58,22 +58,17 @@ if($ReadHost -eq "1") {
     Write-Host "For computer:" $CompName -ForegroundColor Yellow
     Write-Host "CPU:"
     $cpu = Get-WmiObject Win32_Processor  -computername $CompName | Select name
-
     Write-Host $cpu
 
     #Hard drive
     $drives = Get-WmiObject win32_diskdrive | Where-Object{$_.mediatype -eq "HDD" -or $_.mediatype -eq "SSD"} | ForEach-Object -Process {$_.DeviceID} |Format-Table Name, MediaType
-
     Write-Host "Hard Drives:"
     Write-Host $drives
 
     #Memory
-    
     $memory = Get-WmiObject Win32_PhysicalMemory |Select @{Label = 'Type';Expression = {$MemoryTypeMap["$($_.MemoryType)"]}}
-
     Write-Host "Memory:"
     Write-Host $memory
-  
   }#end if
 }#end if
 
@@ -91,11 +86,20 @@ elseif ($Readhost -eq "2") {
       Import-Module activedirectory
       Clear-Host
     }#end if
+    
     Write-Host "For computer:" $Computer -ForegroundColor Yellow
     Write-Host "CPU:"
     cpu = Get-WmiObject Win32_Processor  -computername $computer | select name
-
     Write-Host $cpu
 
+    #Hard drive
+    Get-WmiObject win32_diskdrive | Where-Object{$_.mediatype -eq "HDD" -or $_.mediatype -eq "SSD"} | ForEach-Object -Process {$_.DeviceID} |Format-Table Name, MediaType
+    #Write-Host "Hard Drives:"
+    Write-Host $drives
+
+    #Memory
+    $memory = Get-WmiObject Win32_PhysicalMemory |Select @{Label = 'Type';Expression = {$MemoryTypeMap["$($_.MemoryType)"]}}
+    Write-Host "Memory:"
+    Write-Host $memory
   }#end foreach
 }#end elseif
